@@ -1,0 +1,56 @@
+<aura:component controller="DraupUniverseController" >
+    <aura:attribute name="recordId" type="id" />   
+    <aura:attribute name="accID" type="id" />   
+    <aura:attribute name="isITRadioClick" type="Boolean" />    
+    <aura:attribute name="draupId" type="Id"/> 
+    <!-- init method loads the data attribute values -->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:attribute name="radioData" type="List" />
+    <aura:attribute name="type" type="string" default="R&amp;D" />
+    <aura:attribute name="openSection" type="String" />
+    <aura:attribute name="activeSectionName" type="String" default="key0"/>
+      <aura:attribute name="errorMsg1" type="String" default="Data not available for this section"/>
+   	<!--<aura:attribute name="activeSections" type="List" default="['key0','key1']" />-->
+    <span class="slds-checkbox">
+        <ui:inputRadio aura:id="r0" name="others" label="" text='R&amp;D' value="true" change="{!c.Globalization}">  </ui:inputRadio> R &amp; D &nbsp;&nbsp;
+        <ui:inputRadio aura:id="r1" name="others" label="" text='IT' change="{!c.Globalization}" > </ui:inputRadio> IT
+    </span>
+  
+    <!-- <lightning:button onclick="{! c.handleShowActiveSectionName }" label="Show Active Section Name"/>-->
+
+          <aura:if isTrue="{!v.radioData !=null}">
+        <div class="slds-m-around--medium">
+            <lightning:accordion aura:id="accordion"  activeSectionName="0">
+                 <div class="accordion">
+                <aura:iteration items="{!v.radioData}" var="draup" indexVar="key">  
+                    <lightning:accordionSection name="{!key}" label="{!draup.key}">   
+                        <aura:set attribute="body">
+                            <div class = "slds-grid slds-wrap">
+                                <div class=" slds-box">
+                                    <div class="slds-p-around_small slds-size_6-of-12">
+                                    <aura:iteration items="{!draup.value}" var="draupChild" indexVar="key">
+                                        <aura:if isTrue="{!and(draupChild.key != 'Location' ,draupChild.key != 'Type') }">
+                                            <b>{!draupChild.key}</b>: &nbsp;{!draupChild.value}<br/>
+                                        </aura:if>
+                                    </aura:iteration> 
+                                </div>
+                                </div>
+                            </div>
+                        </aura:set>
+                    </lightning:accordionSection> 
+                </aura:iteration>
+                </div>
+            </lightning:accordion>
+        </div>
+               <aura:set attribute="else">
+            <div class="erDiv">
+                <div class="erInrDiv">
+                    {!v.errorMsg1}
+                </div>
+            </div>
+      </aura:set>
+        </aura:if>
+
+
+    
+</aura:component>

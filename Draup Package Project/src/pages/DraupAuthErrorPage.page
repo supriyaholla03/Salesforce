@@ -1,0 +1,27 @@
+<apex:page controller="DraupAuthentication" sidebar="false" showHeader="false">
+    <script >
+    function closePage() {
+        //setTimeout(function(){ window.close() }, 5000);
+    }
+    function openPopup()
+    {
+       alert('Hi');
+       window.open("/_ui/core/email/author/EmailAuthor?rtype=001&p3_lkid=0010b00002DyzojAAB&retURL=%2F0010b00002DyzojAAB&p5={!$User.Email}&p24=lee.moreau@company.com&template_id=2F00X0b00000256dT");
+    
+   	}
+    </script>
+    
+    <body onload="closePage()">
+        <div  style="height: -webkit-fill-available; background-color:lightgray">
+            <div style="height: fit-content;padding-top: 230px;padding-left: 190px;font-size: 25px;">
+                <div style="">
+                    <h1> Authorization failed: no accessCode received from the server</h1>
+                </div>
+                <apex:form >
+                <apex:commandButton value="Click" onclick="openPopup();"/>
+                </apex:form>    
+            </div>
+        </div>
+    </body>
+    
+</apex:page>

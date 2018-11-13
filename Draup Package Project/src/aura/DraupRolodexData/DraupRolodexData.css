@@ -1,0 +1,202 @@
+.THIS table th {
+    padding: 6px 8px;
+}
+
+.THIS hr{
+    margin-bottom : 0px !important;
+    margin-top : 10px !important;
+}
+.THIS .expDiv hr{
+    margin-bottom : 10px !important;
+    margin-top : 10px !important;
+}
+
+.THIS .expDiv hr{
+    margin-bottom : 10px !important;
+    margin-top : 10px !important;
+}
+
+
+.THIS .tabs__content active uiTab
+{
+    padding : 0 ;
+}
+.THIS .slds-text-title_caps{
+    background-color: #66ccff;
+}
+.THIS .slds-p-around--large{
+    padding : 0;
+}
+.THIS .slds-p-bottom--large{
+    padding: 0 ;
+}
+.THIS .slds-wrap{
+ 	padding-left : 60px;
+    width: 90%;
+    margin: 20px auto;
+}
+
+/*.THIS .slds-modal__container{
+    max-width: 70rem !important;
+    width:60% !important;
+  
+}*/
+
+.THIS .slds-page-header{
+    height: 60px;
+    background: none;
+    border-bottom: 1px solid rgb(221, 219, 218);
+    border-radius: 0px !important;
+}
+
+
+.THIS .tableHeader{
+   font-weight: normal !important; 
+   font-size: 15px !important;
+  /*  width: 300px !important;   */
+}
+
+.THIS .slds-text-heading--label{
+    text-transform: initial !important;
+}
+
+.THIS .slds-icon {
+    /*width: 1rem !important;*/
+    height: 1rem !important;
+    
+}
+.THIS .cstmBtn1{
+    border: 1px solid #00aeef !important;
+    color:#00aeef !important;
+    background-color:white !important;
+    border-radius:0px !important;
+    margin: 25px;
+}
+.THIS .cstmBtn1:hover{
+    border: 1px solid #00aeef !important;
+    color:white !important;
+    background-color:#00aeef !important;
+    border-radius:0px !important;
+    margin: 25px;
+    
+}
+.THIS .cstmBtn2{
+    border: 1px solid #AAAAAA !important;
+    color:#000 !important;
+    background-color:#AAAAAA !important;
+    border-radius:0px !important;
+    
+}
+.THIS .cstmBtn2:hover{
+    border: 1px solid #AAAAAA !important;
+    color:#000 !important;
+    background-color:#BDBDBD !important;
+    border-radius:0px !important;    
+}
+.THIS .tableHeader{
+   font-weight: bold !important; 
+   font-size: 15px !important;
+    color :black;
+}
+.THIS .slds-table--bordered{
+    border-left: none !important;
+    border-right: none !important;
+}
+.THIS .slds-box_xx-small{
+    padding:10px !important;
+}
+.THIS .slds-box_xx-small a{
+ 	font-size: 14px;
+    font-style: Normal;
+    text-decoration: underline;
+    font-weight: bold;
+    color:  rgb(113, 113, 113) !important;
+    text-decoration: underline!important;
+     padding-left:20px;
+}
+
+.THIS .slds-box_xx-small a:active, .THIS .slds-box_xx-small a:hover{
+  	font-size: 14px;
+    font-style: Normal;
+    text-decoration: underline;
+    font-weight: bold;
+    color:  #00aeef !important;
+    text-decoration: underline!important;
+     padding-left:20px;
+}
+.THIS .slds-modal__footer{
+margin-top:30px;
+}
+
+.THIS table{
+    width:98%;
+    border:none;
+    margin-top:20px;
+}
+
+.THIS table tbody tr{
+    height:50px;
+   
+}
+.THIS table tbody tr td{
+border-bottom : 1px solid rgb(221, 219, 218) !important;   
+border-left : none !important;
+}
+
+.THIS .slds-table td {
+    padding-top:15px;
+}
+
+.THIS .slds-table th {
+   border-right : none;
+   font-family : "Roboto Embed", Arial, sans-serif;
+    font-size:13px !important;
+    color : rgb(141, 141, 141);
+    letter-spacing : 0 !important;
+     border-bottom : 1px solid rgb(226, 226, 226) !important;
+}
+
+.THIS .slds-table thead th{
+background-color : white !important;
+}
+
+.THIS .slds-table--bordered tbody td {
+    border-top: none !important;
+    font-family : "Roboto Embed", Arial, sans-serif;
+    font-size : 12px !important;
+     color : #282828;
+}
+
+
+
+.THIS .slds-table--col-bordered th+th {
+    border-left : none !important;
+}
+.THIS table tbody tr:last-child td {
+    border-bottom:none !important;
+}
+
+.THIS .lastModTime{
+    font-family: "Roboto Embed", Arial, sans-serif;
+    color: rgb(141, 141, 141);
+    font-size: 12px;
+}
+.THIS .engGdLns li{
+    list-style: initial !important;
+    margin-left: 25px !important;
+    margin-top: 5px !important;
+}
+
+.THIS .erExeDiv{
+    width: 65%;
+    background: rgb(243, 242, 242);
+    height: 50px;
+    margin: 30px auto;
+    border: 1px solid #ccc;
+}
+.THIS .erExeInrDiv{
+    color: #282828;
+    text-align: center;
+    font-weight: bold;
+    padding-top: 15px;
+}

@@ -1,0 +1,60 @@
+<apex:page controller="DraupAuthentication"  sidebar="false" showHeader="false">
+    <script src="https://cdn.rawgit.com/vast-engineering/jquery-popup-overlay/1.7.13/jquery.popupoverlay.js"/>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+    <script src="https://code.jquery.com/jquery-1.8.2.min.js"/>
+    <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+    <style>        
+        body{
+        	background-color:#f1f5f6;
+        }
+        .succsDiv{
+        	max-width: 400px;
+            margin: 180px auto;
+            text-align: left;
+            padding: 30px;
+            background: #fff;
+            border-radius: 8px;
+        }
+        .succsDiv .succsMsg1{
+        	font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 24px;
+        }
+        .succsDiv .succsMsg2{
+        	font-size: 16px;
+        	color:#666;
+            margin-bottom: 30px;
+            line-height: 24px;
+        }
+        .cstmBtn1:hover {
+            background: #0093ff !important;
+            color: #fff !important;
+        }
+        .cstmBtn1 {
+            border: 1px solid #0093ff !important;
+            color: #0093ff !important;
+            padding: 8px 14px !important;
+            border-radius: 4px !important;
+            font-size: 13px !important;
+            letter-spacing: 1px !important;
+        	font-weight: normal !important;            
+        }
+    </style>
+    <script>
+    function closePage() {
+        window.close();
+    }
+    </script>
+    
+    
+    <body>
+        <div class="succsDiv">
+            <div class="succsMsg1">Thank you!!</div>
+            <div class="succsMsg2">Authorization successfully completed.</div>        
+            <apex:form >
+                <apex:commandButton styleClass="cstmBtn1" value="Go Back" action="{!getAccessToken}" onComplete="javascript:closePage();"/>
+            </apex:form>
+        </div>
+    </body>
+</apex:page>

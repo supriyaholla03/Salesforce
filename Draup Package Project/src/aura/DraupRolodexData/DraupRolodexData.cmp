@@ -1,0 +1,244 @@
+<aura:component controller='DraupRolodexController' implements="force:lightningQuickAction,flexipage:availableForRecordHome,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="recordId" type="id" />
+    <aura:attribute name="isLinkButtonClick" type="Boolean" />
+    <aura:attribute name="isDataDisplay" type="Boolean" default="true" />
+    <aura:attribute name="isLoginAuth" type="Boolean" default="false"/>
+    <aura:attribute name="userInfo" type="user"/> 
+    <aura:attribute name="executiveId" type="Id"/>
+    <aura:attribute name="checkSync" type="boolean" default ="false"/>
+    <!-- init method loads the data attribute values -->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:attribute name="DraupExecutiveWrapper" type="DraupExecutiveWrapper[]" />
+    <aura:attribute name="DraupHeaders" type="List" />
+    <aura:attribute name="RolodexExecutive" type="Lead"/> 
+    <aura:attribute name="draupId" type="String"/> 
+    <aura:attribute name="isLinkButtonHide" type="Boolean"  />
+    <aura:attribute name="StartDate" type="DateTime"/>
+    <ltng:require scripts="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.3/js.cookie.min.js"/>
+    <aura:attribute name="isLoginDisable" type="Boolean"/>
+    <aura:attribute name="imageURL" type="string" default="{!$Resource.noImage}"/>
+	<aura:attribute name="lastModifiedDate" type="DateTime"/>
+    <aura:attribute name="noDataFlag" type="string" default="slds-hide" />
+    <aura:attribute name="errorMsg" type="String"/>
+    <aura:attribute name="errorExeMsg" type="String" default="No matching executive found in Draup"/>
+    <aura:attribute name="errorLinkMsg" type="String" default="No data found"/>
+    <aura:attribute name="isSuperUser" type ="Boolean" default="false"/>
+    <aura:attribute name="errorNoLinkDataMsg" type="String" default="Draup data not linked to this Lead"/>
+    <aura:attribute name="draupPlatformUrl" type="String"/>
+    <!-- Spinner Start -->
+    <c:SpinnerComponent aura:id="childSpinner" /> 
+    <!-- Spinner End -->
+    
+    <!--<aura:attribute name="Spinner" type="boolean" default="false"/>
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+ <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>-->
+    
+    <div class="roloDex">
+        
+        <div class="slds-page-header slds-box slds-box_large" role="banner" style="100%;text-align:center;">
+            <span style="width: 9%;float: left;">
+                <img src="{!$Resource.drauplogo}" style="float:left;width:100px !important;height:30px !important;"/>
+            </span>
+            <aura:if isTrue="{!v.isLinkButtonClick}">
+            <aura:if isTrue="{!v.isSuperUser}">
+                <span style="float: left;margin-left:20px;padding-left: 10px;border-left: 1px solid rgb(221, 219, 218);">
+                    <img src="{!$Resource.UnlickRoundLogo}" title="Unlink" onclick="{!c.unlinkRolodexData}" style="width:36px !important;height:28px!important;"/>
+                </span>
+                <span style="float: left;margin-left:8px">
+                    <img src="{!$Resource.SyncRoundLogo}" title="Sync" onclick="{!c.syncRolodex}" style="width:30px !important;height:28px !important;"/>
+                </span>   
+                </aura:if>
+                 <span style="float: right">
+                  
+                        <b>Last Sync Time from Draup</b> :
+                        <span class="lastModTime">{!v.lastModifiedDate}</span>
+                                       </span>  
+               
+            </aura:if>
+        </div>
+        
+        
+        <aura:if isTrue="{!v.isLoginDisable}">
+            <lightning:button variant="brand"  class="slds-button slds-button_neutral cstmBtn1"  title="Login"  onclick="{!c.draupAuthentication}">
+                <span>Login To Draup </span>
+            </lightning:button>
+        </aura:if>
+
+        <aura:if isTrue="{!v.isSuperUser}">
+        <aura:if isTrue="{!or(and(v.isLoginDisable == false , v.isDataDisplay == True),v.isLinkButtonHide == true)}">
+            <div class="slds-m-around_xx-large">
+                
+                <aura:if isTrue="{!not(empty(v.DraupExecutiveWrapper))}">
+                <lightning:card class="icn" iconName="utility:user" title="Choose Executive from Draup library to link">
+                    
+                    <!-- <table class="slds-table" role="grid" width="40%">
+                <tbody>                     
+                    <aura:iteration items="{!v.DraupExecutiveWrapper}" var="row">
+                        <tr class="slds-hint-parent">
+                            <td data-label="">  
+                                
+                                <ui:inputRadio aura:id="rowSelectionRadioId" name="others" value=" " text="{!row.executive_id}" change="{!c.onExecutiveChange}"/>                  
+                            </td>
+                            <td data-label="Name">  
+                                <div class="slds-truncate" title="{!row.name}">{!row.executive_name}</div>
+                            </td>
+                            <td data-label="Name"> 
+                                <div class="slds-truncate" title="{!row.account}">{!row.account}</div>
+                            </td>
+                            <td data-label="Name"> 
+                                <div class="slds-truncate" title="{!row.bio}">{!row.bio} </div>
+                            </td>
+                            <td data-label="Name"> 
+                                <div class="slds-truncate" title="{!row.location}">{!row.location}</div>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+                </table> -->
+                    
+                    <table class="slds-table slds-table--bordered slds-table--col-bordered slds-table--compact slds-table_resizable-cols" role="grid">
+                        <thead>
+                            <tr id="trId" class="slds-line-height_reset">
+                                <th  class="slds-text-heading--label slds-is-resizable tableHeader" scope="col">  </th>
+                                <th   class="slds-text-heading--label slds-is-resizable tableHeader" scope="col">Executive Name</th>
+                                <th  class="slds-text-heading--label slds-is-resizable tableHeader" scope="col"> Account</th>
+                                <th  class="slds-text-heading--label slds-is-resizable tableHeader" scope="col"> Designation</th>
+                                <th  class="slds-text-heading--label slds-is-resizable tableHeader" scope="col"> Location </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration var="row" items="{!v.DraupExecutiveWrapper}">
+                                <tr class="slds-align-top slds-hint-parent">
+                                    <td data-label="">  
+                                        <!-- checkbox selection invokes the onCheckboxChange controller method-->
+                                        <ui:inputRadio aura:id="rowSelectionRadioId" name="others" value=" " text="{!row.executive_id}" change="{!c.onExecutiveChange}"/>                  
+                                    </td>
+                                    <td role="gridcell" >
+                                        {!row.executive_name}
+                                    </td>
+                                    <td role="gridcell"> 
+                                        {!row.account}
+                                    </td>
+                                    <td role="gridcell"> 
+                                        {!row.bio}
+                                    </td>
+                                    <td role="gridcell">
+                                        {!row.location}
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                    
+                    <br/>
+                    <div style="margin-left:20px;">
+                        <lightning:button variant="brand" label="Link" title="Link" onclick="{! c.displayRelatedExecutiveData }"  />
+                    </div>
+                </lightning:card>
+                    
+                </aura:if>
+                
+            </div>
+           </aura:if>
+            </aura:if> 
+            <div aura:id="nodataflagdiv" class="{!v.noDataFlag}">
+            <div class="erExeDiv">
+                <div class="erExeInrDiv">
+                    {!v.errorMsg}
+                </div>
+            </div>
+            </div>
+            
+            
+           
+        <aura:if isTrue="{!v.isLinkButtonClick}">
+            <div style="width:100%;">
+                <aura:if isTrue="{!not(empty(v.DraupHeaders))}">
+                <div style="width:93%;margin:0 auto;">
+                    <ul>
+                        <aura:iteration items="{!v.DraupHeaders}" var="draup">
+                            
+                            <li>
+                                <div class="slds-text-heading--medium ">
+                                    <br/> <b style="font-weight: bold;text-transform: uppercase;font-family: 'Open Sans Embed', Arial, sans-serif;font-size: 16px;">{!draup.key} {!draup.value} </b><br/>
+                                </div></li>
+                            <aura:if isTrue="{!draup.key=='Draup Psychological Analysis'}"> 
+                                <aura:iteration items="{!draup.value}" var="draupChild">
+                                    <br/>
+                                    <div class="engGdLns">
+                                        <b style="color:#282828;">{!draupChild.key}<br/></b><div style="margin-top:5px;"><aura:unescapedHtml value="{!draupChild.value}" /></div> <hr/>
+                                    </div>                           
+                                </aura:iteration>
+                            </aura:if>
+                            <aura:if isTrue="{!draup.key=='Experience'}"> 
+                                <div class="expDiv">
+                                    <aura:iteration items="{!draup.value}" var="draupChild" ><br/>
+                                        <aura:iteration items="{!draupChild.value}" var="draupChild1">
+                                            
+                                            <b style="color:#282828;">{!draupChild1.Role}</b> 
+                                            <div style="margin-top:5px;">{!draupChild1.draupApp__CompanyName__c}</div>
+                                            <div style="margin-top:5px;"><aura:unescapedHtml value="{!draupChild1.Dates}" /></div>
+                                            <hr/>
+                                        </aura:iteration>
+                                    </aura:iteration>
+                                </div>
+                                
+                            </aura:if>
+                            <aura:if isTrue="{!draup.key=='Overview'}">
+                                <div class="slds-grid" style="float:left;margin-top:20px;">
+                                    <aura:iteration items="{!draup.value}" var="draupChild" >
+                                        
+                                        <aura:if isTrue="{!draupChild.key == 'Image Link'}">
+                                           <!-- <aura:unescapedHtml value="{!draupChild.value}" />-->
+                                            <img src="{!v.imageURL}" style="height:100px" onerror ="{!c.imageError}"/>
+                                            
+                                        </aura:if>
+                                    </aura:iteration>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <aura:iteration items="{!draup.value}" var="draupChild">
+                                        <div class="slds-col slds-align-middle slds-size_1-of-3  ">
+                                            <span> 
+                                                
+                                                <aura:if isTrue="{!draupChild.key != 'Image Link'}">
+                                                    <div style="Width:95%"> <b style="color:#282828;">{!draupChild.key} <br/></b><aura:unescapedHtml value ="{!draupChild.value}"/> </div><br/><br/>
+                                                </aura:if>
+                                                
+                                            </span>
+                                        </div>
+                                    </aura:iteration>  </div>
+                                <hr/>
+                            </aura:if>
+                        </aura:iteration></ul>
+                    
+                </div>
+                </aura:if>
+                <aura:set attribute="else">
+                        <div class="erExeDiv">
+                            <div class="erExeInrDiv">
+                                {!v.errorLinkMsg}
+                            </div>
+                        </div>
+                        
+                    </aura:set>
+            </div>
+        </aura:if>
+        
+        <!-- FOOTER -->
+        <aura:if isTrue="{!or(v.isLoginDisable == false ,v.isLinkButtonHide == true)}">
+            <div class="slds-modal__footer slds-box slds-box_xx-small" style="text-align:left !important">
+                <lightning:icon iconName="utility:new_window" style="width:1.50%;padding-left:35px;"/> &nbsp;
+                <aura:if isTrue="{!v.draupId ==null}">
+                <a href="{!v.draupPlatformUrl+'/draup/rolodex'}" target="_blank">Explore in Draup</a>
+                    <aura:set attribute="else">
+                     
+                        <a href="{!v.draupPlatformUrl+'/draup/rolodex/'+v.draupId}" target="_blank">Explore in Draup</a>
+                    </aura:set>
+                </aura:if>
+            </div>
+        </aura:if>
+        
+        <!-- / FOOTER -->
+        
+    </div>
+</aura:component>

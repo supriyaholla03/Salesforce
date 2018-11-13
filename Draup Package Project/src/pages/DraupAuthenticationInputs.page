@@ -1,0 +1,112 @@
+<apex:page controller="DraupAuthenticationInput" title="Draup Authentication Details " docType="html-5.0">
+    
+    <script src="https://cdn.rawgit.com/vast-engineering/jquery-popup-overlay/1.7.13/jquery.popupoverlay.js"/>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+        <script src="https://code.jquery.com/jquery-1.8.2.min.js"/>
+            <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+    <style>        
+        body{
+        background-color:#f1f5f6;
+        }
+        .succsDiv{
+        max-width: 100%
+        text-align: left;
+        padding: 30px;
+        background: #fff;
+        border-radius: 8px;
+        }
+        .succsDiv .succsMsg1{
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        line-height: 24px;
+        }
+       .succsDiv .succsMsg3{
+        font-size: 16px;
+        font-weight: 700;
+        color:#00e673;
+        margin-bottom: 10px;
+        line-height: 24px;
+        }
+        .succsDiv .succsMsg2{
+        font-size: 16px;
+        color:#666;
+        margin-bottom: 30px;
+        line-height: 24px;
+        }
+        .cstmBtn1:hover {
+        background: #0093ff !important;
+        color: #fff !important;
+        }
+        .cstmBtn1 {
+        border: 1px solid #0093ff !important;
+        color: #0093ff !important;
+        padding: 8px 14px !important;
+        border-radius: 4px !important;
+        font-size: 13px !important;
+        letter-spacing: 1px !important;
+        font-weight: normal !important;            
+        }
+        body .bPageBlock
+        {
+            border-top-color: #0093ff !important;
+        }
+        .bPageBlock .detailList .labelCol {
+               width: 12% !important;
+        }
+        
+        .bPageBlock .labelCol{
+            text-align: left !important;
+        }
+        
+        textarea {
+        width :235px !important;
+    font-size: 13px !important;
+}
+        
+    </style>
+    <script>
+    function closePage() {
+        window.close();
+    }
+    
+    </script>
+    
+    
+    <body>
+        <div class="succsDiv">
+            <apex:form >
+                <apex:pageBlock rendered="{!!status}" >
+                <div class="succsMsg1" >Please enter below details </div>
+                 <apex:pageMessages id="msgId"/>   
+                 <div class="succsMsg2">    
+                     <apex:pageBlockSection columns="1" rendered="{!!authExists}">
+                         <!-- <apex:inputText label="Auth Name :: " required="true" value="{!Name}"/> -->
+                         <apex:inputText label="Client ID :: " required="true" value="{!clientId}"/>
+                         <apex:inputText label="Client Secret :: "  required="true" value="{!clientSecret}"/>
+                         <apex:inputText label="Super User Profile :: "  required="true" value="{!superUserProfiles}"/>
+                         <apex:inputText label="Sync Hour(s) :: "  required="true" value="{!selectedSyncHour}"/>
+                        <!-- <apex:selectList label="Sync Hour(s) :: " value="{!selectedSyncHour}" multiselect="false" size="1">
+                         <apex:selectOptions value="{!Hours}"/> 
+                         </apex:selectList> -->
+                     </apex:pageBlockSection>
+                     <apex:pageBlockSection columns="1" rendered="{!authExists}" >
+                         <!-- <apex:inputText label="Auth Name :: " required="true" value="{!Name}"/> -->
+                         <apex:inputTextarea label="Client ID :: "  rows="1" required="true" value="{!clientId}"/>
+                         <apex:inputTextarea label="Client Secret :: " rows="1" required="true" value="{!clientSecret}"/>
+                         <apex:inputTextarea label="Super User Profile :: " rows="1" required="true" value="{!superUserProfiles}"/> 
+                         <apex:inputText label="Sync Hour(s) :: " required="true" value="{!selectedSyncHour}" ></apex:inputText>
+                         <!-- <apex:selectList label="Sync Hour(s) :: " value="{!selectedSyncHour}" multiselect="false" size="1">
+                         <apex:selectOptions value="{!Hours}"/>
+                         </apex:selectList> -->
+                     </apex:pageBlockSection>
+                </div>       
+                </apex:pageBlock>    
+                <apex:commandButton styleClass="cstmBtn1" value="Submit" action="{!insertClientDetails}"  rendered="{!!status}" />
+                <apex:outputText escape="true" rendered="{!status}"><div class="succsMsg3">Successfully Saved</div> </apex:outputText>
+                
+            </apex:form>  
+        </div>
+    </body>    
+    
+</apex:page>

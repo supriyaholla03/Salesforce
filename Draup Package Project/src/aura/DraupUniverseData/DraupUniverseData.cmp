@@ -1,0 +1,333 @@
+<aura:component controller='DraupUniverseController' implements="force:lightningQuickAction,flexipage:availableForRecordHome,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="recordId" type="id" />
+    <aura:attribute name="isLinkButtonClick" type="Boolean"  />
+    <aura:attribute name="isHeaderFooterShown" type="Boolean" default="true" />
+    <aura:attribute name="isITRadioClick" type="Boolean" />
+    <aura:attribute name="isDataDisplay" type="Boolean" default="true" />
+    <aura:attribute name="isLoginAuth" type="Boolean" default="false"/>
+    <aura:attribute name="userInfo" type="user"/> 
+    <aura:attribute name="universeAccount" type="Account"/> 
+    <aura:attribute name="accId" type="Id"/> 
+    <aura:attribute name="draupId" type="String"/> 
+    <!-- init method loads the data attribute values -->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:attribute name="DraupUniverseWrapper" type="DraupUniverseWrapper[]" />
+    <aura:attribute name="DraupHeaders" type="List" />
+    <aura:attribute name="radioData" type="List" />
+    <aura:attribute name="isLoginDisable" type="Boolean"  />
+    <aura:attribute name="isLinkButtonHide" type="Boolean"  />
+    <aura:attribute name="storeRadioValue" type="string" default="R&amp;D" />
+    <aura:attribute name="checkSync" type="boolean" default ="false"/>
+    <aura:attribute name="lastModifiedDate" type="DateTime"/>
+    <aura:attribute name="noDataFlag" type="string" default="slds-hide" />
+    <aura:attribute name="errorMsg" type="String"/>
+    <aura:attribute name="errorAccMsg" type="String" default="No matching Account found in Draup"/>
+    <aura:attribute name="errorNoLinkDataMsg" type="String" default="Draup data not linked to this Account"/>
+    <aura:attribute name="errorLinkMsg" type="String" default="No data found"/>
+    <aura:attribute name="isSuperUser" type ="Boolean" default="false"/>
+    <aura:attribute name="isContactsDelete" type ="Boolean" default="false"/>
+    <aura:attribute name="contactCount" type ="Integer" default="0"/>
+    <aura:attribute name="draupAccountName" type="String"/>
+    <aura:attribute name="draupPlatformUrl" type="String"/>
+
+    <!-- Spinner Start -->
+    <c:SpinnerComponent aura:id="childSpinner" /> 
+    <!-- Spinner End -->
+    
+    <div>
+        
+            <div class="slds-page-header slds-box slds-box_large" role="banner" style="100%;text-align:center;">
+                <span style="width: 9%;float: left;">
+                    <img src="{!$Resource.drauplogo}" style="float:left;width:100px !important;height:30px !important;"/>
+                </span>
+                
+                <aura:if isTrue="{!v.isLinkButtonClick}">
+                <aura:if isTrue="{!v.isSuperUser}">
+                <span style="float: left;margin-left:20px;padding-left: 10px;border-left: 1px solid rgb(221, 219, 218);">
+                    <img src="{!$Resource.UnlickRoundLogo}" title="Unlink" onclick="{!c.verifyContacts}" style="width:36px !important;height:28px!important;"/>
+                </span>    
+                <span style="float: left;margin-left:8px">
+                    <img src="{!$Resource.SyncRoundLogo}" title="Sync" onclick="{!c.syncUniverse}" style="width:30px !important;height:28px !important;"/>
+                </span>
+                </aura:if>
+                <span style="float: right">
+                    <!-- <aura:if istrue="{!v.lastModifiedDate}"> -->
+                        <b>Last Sync Time from Draup</b> :
+                        <span class="lastModTime">{!v.lastModifiedDate}</span>
+                       <!--<aura:set attribute="else">
+                        </aura:set>                  
+                    </aura:if> -->
+                </span>  
+                </aura:if>
+            </div>
+        <!--<aura:attribute name="isOpen" type="boolean" default="false"/>
+     <div class="slds-m-around_xx-large">
+        <lightning:button variant="brand"
+                         label="SkillsData"
+                          title="SkillsData"
+                          onclick="{! c.openModel }" />
+        <aura:if isTrue="{!v.isOpen}">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">SkillsData</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                         <c:SkillsDataInChart/>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral" 
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModel }"/>
+                       
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+    </div>-->
+    <aura:if isTrue="{!v.isLoginDisable}">
+                <lightning:button variant="brand"  class="slds-button slds-button_neutral cstmBtn1"  title="Login"  onclick="{!c.draupAuthentication}">
+                    <span>Login To Draup </span>
+                </lightning:button>
+        </aura:if>
+		
+        <aura:if isTrue="{!v.isSuperUser}">
+        <aura:if isTrue="{!or(and(v.isLoginDisable == false , v.isDataDisplay == True),v.isLinkButtonHide == true)}">
+            <!-- !or(and(v.ValueOneisTrue, v.ValuethreeisTrue) , v.ValueTwoisFalse-->
+            <div class="slds-m-around_xx-large">
+                <aura:if isTrue="{!not(empty(v.DraupUniverseWrapper))}">
+                <lightning:card class="icn" iconName="utility:user" title="Choose Company from Draup library to link">
+                    <div class="slds-icon_container slds-icon-standard-account"></div>                    
+                    <table class="slds-table" role="grid" style="width:25% !important;">
+                        <tbody>
+                            <!-- Iterates the collection of records stored in the data attribute-->
+                            <aura:iteration items="{!v.DraupUniverseWrapper}" var="row">
+                                <tr class="slds-hint-parent">
+                                    <td data-label="">  
+                                        <!-- checkbox selection invokes the onCheckboxChange controller method-->
+                                        <ui:inputRadio aura:id="rowSelectionRadioId" name="{!row.account_name}" value="" text="{!row.account_id}"  change="{!c.onExecutiveChange}"/>                                   
+                                    </td>
+                                    <td data-label="Name">  
+                                        <div class="slds-truncate" title="{!row.name}">{!row.account_name}</div>
+                                    </td>
+                                    
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <div style="margin-left:20px;">
+                        <lightning:button variant="brand" label="Link" title="Link" onclick="{! c.displayRelatedUniverseData}"  />
+                    </div>
+                </lightning:card>
+                   
+                </aura:if>
+            </div>
+         </aura:if>
+            
+	</aura:if>
+        <div aura:id="nodataflagdiv" class="{!v.noDataFlag}">
+            <div class="erAccDiv">
+                <div class="erAccInrDiv">
+                    {!v.errorMsg}
+                </div>
+            </div>
+            </div>
+        <aura:if isTrue="{!v.isLinkButtonClick }">
+            <aura:if isTrue="{!not(empty(v.DraupHeaders))}">
+            <aura:iteration items="{!v.DraupHeaders}" var="draup" >           
+                <aura:if isTrue="{!draup.key=='Overview'}"> 
+                     <div class="slds-grid slds-wrap">
+                            <aura:iteration items="{!draup.value}" var="draupChild" >
+                                <aura:if isTrue ="{!(draupChild.key == 'R&amp;D Spend')}"> 
+                                    <div class="slds-col slds-align-middle slds-size_1-of-6  ">
+                                        <span>
+                                            <span style="font-size:12px;color:rgb(113, 113, 113);">{!draupChild.key} <br/></span>
+                                            <span style="font-size:16px;color:#282828;font-weight:bold;">USD&nbsp;<lightning:formattedNumber value="{!draupChild.value}" /></span><br/><br/>
+                                        </span>
+                                    </div>
+                                </aura:if>
+                                <aura:if isTrue ="{!draupChild.key == 'Headquarters'}"> 
+                                    <div class="slds-col slds-align-middle slds-size_1-of-6  ">
+                                        <span>
+                                            <span style="font-size:12px;color:rgb(113, 113, 113);">{!draupChild.key} <br/></span>
+                                            <span style="font-size:16px;color:#282828;font-weight:bold;">{!draupChild.value}</span><br/><br/>
+                                        </span>
+                                    </div>
+                                </aura:if>
+                                
+                                <aura:if isTrue ="{!draupChild.key=='Opportunity Index'}">
+                                    <div class="slds-col slds-align-middle slds-size_1-of-6  ">
+                                        <span>
+                                            <span style="font-size:12px;color:rgb(113, 113, 113);">{!draupChild.key} <br/></span>
+                                            <span style="font-size:16px;color:#282828;font-weight:bold;"><lightning:formattedNumber value="{!draupChild.value}" minimumFractionDigits="2" maximumFractionDigits="2"/></span><br/><br/>
+                                        </span>
+                                    </div>
+                                </aura:if>
+                                
+                                <aura:if isTrue ="{!draupChild.key=='R&amp;D Spend Growth'}">
+                                    <div class="slds-col slds-align-middle slds-size_1-of-6  ">
+                                        <span>
+                                            <span style="font-size:12px;color:rgb(113, 113, 113);">{!draupChild.key} <br/></span>
+                                            <span style="font-size:16px;color:#282828;font-weight:bold;">{!draupChild.value}%</span><br/><br/>
+                                        </span>
+                                    </div>
+                                </aura:if>
+                                
+                                
+                                <aura:if isTrue = "{!draupChild.key=='Total R&amp;D Workforce'}">
+                                    <div class="slds-col slds-align-middle slds-size_1-of-6  ">
+                                        <span>
+                                            <span style="font-size:12px;color:rgb(113, 113, 113);">{!draupChild.key} <br/></span>
+                                            <span style="font-size:16px;color:#282828;font-weight:bold;"><lightning:formattedNumber value="{!draupChild.value}"/></span><br/><br/>
+                                        </span>
+                                    </div>
+                                </aura:if>
+                                
+                                <aura:if isTrue = "{!draupChild.key=='Total IT Workforce'}">
+                                    <div class="slds-col slds-align-middle slds-size_1-of-6  ">
+                                        <span>
+                                            <span style="font-size:12px;color:rgb(113, 113, 113);">{!draupChild.key} <br/></span>
+                                            <span style="font-size:16px;color:#282828;font-weight:bold;"><lightning:formattedNumber value="{!draupChild.value}" /></span><br/><br/>
+                                        </span>
+                                    </div>
+                                </aura:if>
+                            </aura:iteration> 
+                        </div> 
+                </aura:if>
+            </aura:iteration>
+            
+            <lightning:tabset  variant="vertical"  aura:id="tabs" selectedTabId="Outsourcing">
+                <aura:iteration items="{!v.DraupHeaders}" var="draup" >
+                    <aura:if isTrue="{!draup.key !='Overview'}">
+                        <lightning:tab label="{!draup.key}" id="{!draup.key}">
+                            <aura:if isTrue="{!draup.key=='Outsourcing'}">
+                                <aura:iteration items="{!draup.value}" var="draupChild" >
+                                    <aura:if isTrue="{!draupChild.key != 'DraupHeader'}">
+                                    <div class="slds-border_bottom"><b style="color:#282828;">{!draupChild.key} </b></div><br/><span style="padding-left:20px;float:left;padding-bottom:20px;"><aura:unescapedHtml value="{!draupChild.value}"/></span> <br/><br/>
+                                        </aura:if>
+                                </aura:iteration>
+                            </aura:if>
+                            <aura:if isTrue="{!draup.key=='Strategic Signals'}">
+                                <aura:iteration items="{!draup.value}" var="draupChild">
+                                    <aura:iteration items="{!draupChild.value}" var="draupChild1" >
+                                        <aura:if isTrue="{!draupChild1.draupApp__StrategicSignalTitle__c !=null}">
+                                          <div class="digital-tech-stack"> <a href="{!draupChild1.Link}" target="_blank">{!draupChild1.draupApp__StrategicSignalTitle__c} </a>
+                                              &nbsp; &nbsp;
+                                             <span class="uiOutputDateTime"> {!draupChild1.draupApp__StrategicDate__c}</span>
+                                             <!-- <ui:outputDateTime value="{!draupChild1.draupApp__StrategicDate__c}" format="MMM dd yyyy"/><br/>--> </div>
+                                             <div class="slds-border_bottom"><span style="font-size:12px;color:rgb(113, 113, 113);"> #{!draupChild1.Tag}</span></div>
+                                        </aura:if>                                      
+                                    </aura:iteration>
+                                </aura:iteration>
+                            </aura:if>
+                            
+                            <aura:if isTrue="{!draup.key=='Digital Tech Stack'}">
+                                <aura:iteration items="{!draup.value}" var="draupChild">
+                                    <aura:iteration items="{!draupChild.value}" var="draupChild1" >
+                                        <div class="slds-border_bottom"> <b> {!draupChild1.Categories}</b></div>
+                                        <div class="digital-tech-stack">{!draupChild1.TechStack}<br/><br/></div>
+                                    </aura:iteration>
+                                </aura:iteration>
+                            </aura:if>
+                            <!-- <aura:if isTrue="{!draup.key=='Globalization'}">
+                            <span class="slds-checkbox">
+                                <ui:inputRadio aura:id="r0" name="others" label="" text='R &amp; D' value="true" change="{!c.ITRadioClick}">  </ui:inputRadio> R &amp; D &nbsp;&nbsp;
+                                <ui:inputRadio aura:id="r1" name="others" label="" text='IT' change="{!c.ITRadioClick}" > </ui:inputRadio> IT
+                            </span>
+                            <aura:if isTrue="{!v.isITRadioClick}">
+                                <aura:iteration items="{!v.radioData}" var="draup" indexVar="key">           
+                                    <div class="slds-border_top slds-border_bottom">
+                                        <aura:iteration items="{!draup.value}" var="draupChild" indexVar="key">
+                                            <b>{!draupChild.key} :</b>{!draupChild.value} <br/>
+                                        </aura:iteration> 
+                                    </div> 
+                                </aura:iteration>
+                            </aura:if>
+                        </aura:if>-->
+                            <aura:if isTrue="{!draup.key=='Globalization'}">
+                                <c:UniverseGlobalization recordId="{!v.recordId}" draupId="{!v.accId}"/>
+                            </aura:if>
+                            <aura:if isTrue="{!draup.key=='Hiring'}">
+                                <c:UniverseHiring recordId="{!v.recordId}" draupId="{!v.accId}"/>
+                            </aura:if>
+                            <aura:if isTrue="{!draup.key=='Executive Movement'}">
+                                <c:UniverseExecutiveMovement recordId="{!v.recordId}" draupId="{!v.accId}"/>
+                            </aura:if>
+                        </lightning:tab>
+                    </aura:if>
+                </aura:iteration>
+            </lightning:tabset>
+                <aura:set attribute="else">
+                        <div class="erAccDiv">
+                            <div class="erAccInrDiv">
+                                {!v.errorLinkMsg}
+                            </div>
+                        </div>
+                    </aura:set>
+            </aura:if>
+        </aura:if>
+        <!--PopUP Msg-->
+        <div class="slds-m-around_xx-large">
+		<aura:if isTrue="{!v.isContactsDelete}">
+            <!--###### MODAL BOX Start######--> 
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- ###### MODAL BOX HEADER Start ######-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closePopuUp }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2>
+                    </header>
+                    <!--###### MODAL BOX BODY Part Start######-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p><b> This account has {!v.contactCount} contact(s) also will get unlinked.
+                            </b>
+                        </p>
+                    </div>
+                    <!--###### MODAL BOX FOOTER Part Start ######-->
+                    <footer class="slds-modal__footer" style="margin-top: unset;">
+                        <lightning:button variant="neutral" 
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closePopuUp }"/>
+                        <lightning:button variant="brand" 
+                                          label="UnLink and Close"
+                                          title="UnLink and Close"
+                                          onclick="{! c.unlinkUniverseData }"/>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            <!--###### MODAL BOX Part END Here ######-->
+        </aura:if>		
+        </div>
+        <!-- /Popup Msg -->
+        
+        <!-- FOOTER -->
+        <aura:if isTrue="{!or(v.isLoginDisable == false ,v.isLinkButtonHide == true)}">
+            <div class="slds-modal__footer slds-box slds-box_xx-small" style="text-align:left !important">
+                <lightning:icon iconName="utility:new_window" style="width:1.50%;padding-left:35px;"/>&nbsp;
+                <aura:if isTrue="{!v.draupId ==null}">
+                <a href="{!v.draupPlatformUrl+'/draup/universe'}" target="_blank">Explore in Draup</a>
+                    <aura:set attribute="else">
+                     
+                        <a href="{!v.draupPlatformUrl+'/draup/universe/'+v.draupId}" target="_blank">Explore in Draup</a>
+                    </aura:set>
+                </aura:if>
+            </div>
+        </aura:if>
+        
+        <!-- / FOOTER -->
+    </div>
+</aura:component>

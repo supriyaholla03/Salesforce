@@ -1,0 +1,64 @@
+.THIS table{
+    width:98%;
+    border:none;
+   
+}
+
+.THIS table tbody tr{
+    height:50px;
+   
+}
+.THIS table tbody tr td{
+border-bottom : 1px solid rgb(221, 219, 218) !important;   
+border-left : none !important;
+}
+
+.THIS .slds-table td {
+    padding-top:15px;
+}
+
+.THIS .slds-table th {
+   border-right : none;
+   font-family : "Roboto Embed", Arial, sans-serif;
+    font-size:13px !important;
+    color : rgb(141, 141, 141);
+    letter-spacing : 0 !important;
+    border-bottom : 1px solid rgb(226, 226, 226) !important;
+}
+
+.THIS .slds-table thead th{
+background-color : white !important;
+}
+
+.THIS .slds-table--bordered tbody td {
+    border-top: none !important;
+    font-family : 'Open Sans Embed', Arial, sans-serif;
+    font-size : 12px !important;
+     color : #282828;
+    width : 8%;
+}
+
+.THIS .uiOutputDateTime {
+    font-size : 12px !important;
+    font-family : 'Open Sans Embed', Arial, sans-serif;
+    color : #282828;
+}
+
+.THIS .slds-table--col-bordered th+th {
+    border-left : none !important;
+}
+.THIS table tbody tr:last-child td {
+    border-bottom:none !important;
+}
+.THIS.ntDiv{
+    padding: 0 25px 15px 25px;
+}
+.THIS.ntDiv .hdng{
+    font-weight: bold;
+    border-bottom: 2px solid #000;
+}
+.THIS.ntDiv .txt{
+    margin-left: 5px;
+    font-family: "Roboto Embed",Arial,sans-serif;
+    color: rgb(141, 141, 141);
+}

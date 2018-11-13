@@ -1,0 +1,110 @@
+<aura:component controller='DraupRolodexController' implements="force:lightningQuickAction,flexipage:availableForRecordHome,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="recordId" type="id" />
+     <aura:attribute name="isLinkButtonClick" type="Boolean" />
+    <aura:attribute name="isDataDisplay" type="Boolean" default="true" />
+    <aura:attribute name="isLoginAuth" type="Boolean" default="false"/>
+    <aura:attribute name="userInfo" type="user"/> 
+    <aura:attribute name="executiveId" type="Id"/> 
+     <!-- init method loads the data attribute values -->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:attribute name="DraupExecutiveWrapper" type="DraupExecutiveWrapper[]" />
+    <aura:attribute name="DraupHeaders" type="List" />
+    <aura:attribute name="isLoginDisable" type="Boolean"/>
+    <ltng:require scripts="https://cdn.rawgit.com/vast-engineering/jquery-popup-overlay/1.7.13/jquery.popupoverlay.js"></ltng:require>
+    <ltng:require scripts="https://code.jquery.com/jquery-1.8.2.min.js"></ltng:require>
+    <div>
+        <aura:if isTrue="{!v.isLinkButtonClick}">
+       	<div class="slds-page-header slds-box slds-box_large" role="banner" style="100%;text-align:center;">
+           <span style="width: 35%;float: left;border-right: 1px solid black;">
+               <img src="{!$Resource.drauplogo}" style="float:left;width:100px !important;height:30px !important;"/>
+           </span>
+           <span style="float: left;margin-left:4px;">
+                 <img src="{!$Resource.unlinklogo}" title="unlink_1" onclick="{!c.unlinkRolodexData}" style="width:15px !important;height:15px !important;"/>
+           </span>
+           <span style="float: left;margin-left:8px">
+                <img src="{!$Resource.synclogo}" title="sync" style="width:20px !important;height:15px !important;"/>
+           </span>    
+       	</div>
+        </aura:if>
+        <!-- / LAYOUT GRID -->
+
+  <aura:if isTrue="{!v.isLoginDisable}">
+    <center>
+        <lightning:button variant="brand"  class="slds-button slds-button_neutral"  title="Neutral action"  onclick="{!c.draupAuthentication}">
+            <img class="slds-button__icon slds-button__icon_left" src="{!$Resource.DraupImage}" /> 
+            <strong>Login To Draup </strong>
+        </lightning:button>
+     </center>
+     </aura:if>
+    <aura:if isTrue="{!and(v.isLoginDisable == false , v.isDataDisplay == True)}">
+          <div class="slds-m-around_xx-large">
+               <lightning:card class="icn" iconName="utility:user" title="Choose Executive from Draup library to Link">
+             
+             <table class="slds-table" role="grid" width="40%">
+                <tbody>
+                    <!-- Iterates the collection of records stored in the data attribute-->
+                    <aura:iteration items="{!v.DraupExecutiveWrapper}" var="row">
+                        <tr class="slds-hint-parent">
+                            <td data-label="">  
+                                <!-- checkbox selection invokes the onCheckboxChange controller method-->
+                                <ui:inputRadio aura:id="rowSelectionRadioId" name="others" value=" " text="{!row.executive_id}" change="{!c.onExecutiveChange}"/>                  
+                            </td>
+                            <td data-label="Name">  
+                                <div class="slds-truncate" title="{!row.name}">{!row.executive_name}</div>
+                            </td>
+                            
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+                </table>
+             
+              <br/>
+              <div style="margin-left:20px;">
+              <lightning:button variant="brand" label="Link" title="Link" onclick="{! c.displayRelatedExecutiveData }"  />
+			  </div>
+           </lightning:card>
+        </div>
+
+   </aura:if>
+        
+                  
+    <aura:if isTrue="{!v.isLinkButtonClick}">
+        <div>
+            <ul>
+                {!v.DraupHeaders}
+                <aura:iteration items="{!v.DraupHeaders}" var="draup" indexVar="key">
+                    <br/><li>
+                        <div class="slds-text-heading--medium slds-border_top">
+                            <br/> <b>{!draup.key} </b>
+                        </div></li>
+                    <aura:iteration items="{!draup.value}" var="draupChild" indexVar="key">
+                      <br/><aura:if isTrue="{!draup.key=='Draup Psychological Analysis'}"> <div class="slds-border_bottom">
+                        <b>{!draupChild.key} <br/></b><aura:unescapedHtml value="{!draupChild.value}"/> <br/>
+                        </div>
+                 </aura:if>
+                        <aura:if isTrue="{!draup.key=='Experience'}"> 
+                       {!draupChild.value} <br/>
+                       
+                 </aura:if>
+                        <br/>    
+                    </aura:iteration>
+                 <br/>   
+                </aura:iteration></ul>
+             
+            <br/>
+                
+        </div>
+    </aura:if>
+    
+     <!-- FOOTER -->
+         <aura:if isTrue="{!v.isLinkButtonClick}">
+    <div class="slds-modal__footer slds-box slds-box_xx-small">
+                <lightning:icon iconName="utility:new_window" style="width:5%"/> 
+			 <a href="https://qa-platform.draup.com/" target="_blank" style="font-size: 12px;font-style: italic;">Explore in Draup</a>
+            </div>
+        </aura:if>
+      
+    <!-- / FOOTER -->
+        
+    </div>
+</aura:component>

@@ -1,0 +1,37 @@
+<aura:component controller="DraupUniverseController">
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:attribute name="recordId" type="id" />
+    <aura:attribute name="draupId" type="id" />
+    <aura:attribute name="hiringList" type="List" />
+    <div class="ntDiv">
+        <span class="hdng">Note: </span><span class="txt">This is last 6 months data</span>
+    </div>
+    <div style="border-radius: 0px;padding-left:20px;" class="slds-scrollable--x">
+       
+        <table class="slds-table slds-table--bordered slds-table--col-bordered slds-table--compact slds-table_resizable-cols" role="grid">
+            <thead>
+                <tr id="trId" class="slds-line-height_reset">
+                    <th  class="slds-text-heading--label slds-is-resizable tableHeader" scope="col">Location</th>
+                    <th   class="slds-text-heading--label slds-is-resizable tableHeader" scope="col">Top Skills</th>
+                    <th  class="slds-text-heading--label slds-is-resizable tableHeader" scope="col">Top Roles</th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration var="row" items="{!v.hiringList}">
+                    <tr class="slds-align-top slds-hint-parent">
+                        <td role="gridcell" >
+                            {!row.draupApp__TopLocations__c}
+                        </td>
+                        <td role="gridcell"> 
+                            {!row.draupApp__KeySkillsHired__c}
+                          </td>
+                        <td role="gridcell">
+                            {!row.draupApp__TopTitles__c}
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+    </div>
+</aura:component>

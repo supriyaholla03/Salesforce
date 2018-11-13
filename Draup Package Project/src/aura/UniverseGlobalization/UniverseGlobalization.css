@@ -1,0 +1,66 @@
+.THIS .slds-border_bottom{
+    padding: inherit;
+}
+.THIS .slds-accordion__summary-action{
+    background-color:rgb(226, 226, 226);
+    border-color: rgba(255, 255, 255, 0);
+    cursor: pointer;
+    height: 30px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    font-size:13px;
+    /* top: -30px;
+    width: 1069px;
+    height: 30px;
+    background-color: rgb(226, 226, 226);
+    border-color: rgba(255, 255, 255, 0);
+    position: absolute;*/
+}
+.THIS .slds-accordion__section{
+    padding-bottom: 0.75rem;
+    padding-top: 0;
+    padding-right: 0;
+    padding-left: 0;
+}
+.THIS .slds-box{
+    padding : 0;
+    width:50%;
+}
+.THIS .slds-button:hover, .THIS .slds-button:focus{
+    color:#282828 !important;
+}
+.THIS .slds-icon-text-default{
+    position: absolute;
+    right: 5px;
+    top: 8px;
+}
+.THIS .slds-size_6-of-12{
+    width:100%;
+}
+.THIS .slds-truncate{
+    margin-left:10px;
+    text-decoration:none !important;
+}
+.THIS .slds-is-open .slds-truncate{
+    margin-left:10px;
+    text-decoration:none !important;
+}
+.THIS.slds-checkbox{
+    padding-left:20px;
+}
+.THIS.erDiv{
+    width: 65%;
+    background: rgb(243, 242, 242);
+    height: 50px;
+    margin: 30px auto;
+    border: 1px solid #ccc;
+}
+.THIS .erInrDiv{
+    color: #282828;
+    text-align: center;
+    font-weight: bold;
+    padding-top: 15px;
+}

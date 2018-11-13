@@ -1,0 +1,19 @@
+<aura:component implements="force:lightningQuickAction,flexipage:availableForRecordHome,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" > 
+    <aura:attribute name="recordId" type="id" />
+    <!-- init method loads the data attribute values -->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:attribute name="DraupHeaders" type="DraupHeader__c[]" />
+    <div>
+        <ul>
+            <aura:iteration items="{!v.DraupHeaders}" var="draup">
+                <li>
+                    <div>
+                       {!draup.RecordType.Name} 
+                    </div></li>
+                <aura:iteration items="{!draup.DraupChild_Details__r}" var="draupChild">
+                       BusinessUnit:{!draupChild.BusinessUnit__c}
+                    </aura:iteration>
+               
+            </aura:iteration></ul>
+    </div>
+</aura:component>

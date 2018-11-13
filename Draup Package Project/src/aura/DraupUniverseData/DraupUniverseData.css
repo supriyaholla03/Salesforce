@@ -1,0 +1,176 @@
+.THIS .tabs__content active uiTab
+{
+    padding : 0;
+}
+.THIS .slds-text-title_caps
+{
+    background-color: #66ccff;
+}
+.THIS .slds-table th 
+{
+    white-space: normal;
+    padding : 10px 5px;
+}
+.THIS .slds-table td 
+{
+    white-space: normal;
+}
+
+.THIS .slds-page-header{
+    height: 60px;
+    background: none;
+    border-bottom: 1px solid rgb(221, 219, 218);
+    border-radius: 0px !important;
+}
+
+.THIS .slds-border_bottom{
+    width:100%;
+    margin:0 auto;
+    Padding-top:10px;
+    padding-bottom:10px;
+    padding-left:20px;
+}
+.THIS .digital-tech-stack{
+	padding-top: inherit;
+    padding-left:20px;
+}
+
+.THIS .tableHeader{
+   font-weight: bold !important; 
+   font-size: 15px !important;
+    color :black;
+  /*  width: 300px !important;   */
+}
+
+.THIS .slds-text-heading--label{
+    text-transform: initial !important;
+}
+
+.THIS .slds-icon {
+   /* width: 1rem !important;*/
+    height: 1rem !important;
+    
+}
+.THIS .slds-vertical-tabs__nav{
+    padding-top:20px;
+    height:100%;
+}
+
+.THIS .slds-vertical-tabs__nav-item.slds-is-active{
+    background : rgb(170, 170, 170) !important;
+    color:white !important;
+    font-weight : bold !important;
+    text-decoration:none !important;
+}
+ 
+.THIS .slds-vertical-tabs__nav-item.slds-is-active .slds-vertical-tabs__link:hover{
+    background : rgb(170, 170, 170) !important;
+    color:white !important;
+    font-weight : bold !important;
+    text-decoration:none !important;
+}
+.THIS .slds-vertical-tabs__link:hover{
+    background : transparent !important;
+    color: rgb(40, 40, 40) !important;
+}
+.THIS .slds-tabs__nav-scroller{
+    background-color : rgb(239, 239, 239) !important;
+}
+.THIS .slds-grid.slds-wrap{
+    width:95%;
+    margin:0 auto;
+}
+.THIS .slds-vertical-tabs__nav-item{
+    color:#282828 !important;
+    border-bottom:none !important;
+}
+.THIS .slds-vertical-tabs__nav-item a.active, .THIS .slds-vertical-tabs__nav-item a:focus{
+    color:#fff !important;
+    text-decoration:none !important;
+}
+.THIS .uiOutputDateTime{
+    color:rgb(141, 141, 141);
+    font-size:10px;
+}
+.THIS .digital-tech-stack a{
+    color:#282828 !important;
+    text-decoration:underline !important;
+}
+
+.THIS .digital-tech-stack a:hover, .THIS .digital-tech-stack a.active{
+    color:#00aeef !important;
+    text-decoration:underline !important;
+}
+
+.THIS .slds-box_xx-small{
+    padding:10px !important;
+}
+
+.THIS .slds-box_xx-small a{
+ 	font-size: 14px;
+    font-style: Normal;
+    text-decoration: underline;
+    font-weight: bold;
+    color:  rgb(113, 113, 113) !important;
+    text-decoration: underline!important;
+     padding-left:20px;
+}
+
+.THIS .slds-box_xx-small a:active, .THIS .slds-box_xx-small a:hover{
+  	font-size: 14px;
+    font-style: Normal;
+    text-decoration: underline;
+    font-weight: bold;
+    color:  #00aeef !important;
+    text-decoration: underline!important;
+     padding-left:20px;
+}
+.THIS .slds-modal__footer{
+margin-top:30px;
+}
+
+.THIS .slds-size_1-of-6:last-child{
+    padding-top : 15px;
+}
+.THIS .slds-show{
+    padding-left:0;
+    padding-right:0;
+    
+}
+
+.THIS .cstmBtn1{
+    border: 1px solid #00aeef !important;
+    color:#00aeef !important;
+    background-color:white !important;
+    border-radius:0px !important;
+    margin: 25px;
+}
+
+.THIS .cstmBtn1:hover{
+    border: 1px solid #00aeef !important;
+    color:white !important;
+    background-color:#00aeef !important;
+    border-radius:0px !important;
+    margin: 25px;
+    
+}
+
+.THIS .lastModTime{
+    font-family: "Roboto Embed", Arial, sans-serif;
+    color: rgb(141, 141, 141);
+    font-size: 12px;
+}
+
+.THIS .erAccDiv{
+    width: 65%;
+    background: rgb(243, 242, 242);
+    height: 50px;
+    margin: 30px auto;
+    border: 1px solid #ccc;
+}
+.THIS .erAccInrDiv{
+    color: #282828;
+    text-align: center;
+    font-weight: bold;
+    padding-top: 15px;
+}

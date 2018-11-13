@@ -1,0 +1,70 @@
+<aura:component controller="DraupUniverseController">
+
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:attribute name="recordId" type="id" />
+    <aura:attribute name="draupId" type="id" />
+    <aura:attribute name="type" type="String" default="Exit" />
+    <aura:attribute name="errorMsg" type="String" default="Data not available for this section"/>
+<aura:attribute name="exeMovementList" type="List" />
+
+    <fieldset class="slds-form-element">
+         <span class="slds-checkbox">
+        <ui:inputRadio aura:id="Exit" name="others" label="" text='Exit' value="true" change="{!c.specificMovement}">  </ui:inputRadio> Exits &nbsp;&nbsp;
+        <ui:inputRadio aura:id="Hired" name="others" label="" text='Hired' change="{!c.specificMovement}" > </ui:inputRadio> Hires &nbsp;&nbsp;
+        <ui:inputRadio aura:id="Promoted" name="others" label="" text='Promoted' change="{!c.specificMovement}" > </ui:inputRadio> Promotions
+    </span>
+                
+    </fieldset>
+	<aura:if isTrue="{!v.exeMovementList !=null}">
+        <div style="border-radius: 0px;padding-left:20px;" class="slds-scrollable--x">
+            <table class="slds-table slds-table--bordered slds-table--col-bordered slds-table--compact slds-table_resizable-cols" role="grid">
+                <thead>
+                    <tr id="trId" class="slds-line-height_reset">
+                        
+                        
+                        <th  class="slds-text-heading--label slds-is-resizable tableHeader" scope="col">Movement Date</th>
+                        <th   class="slds-text-heading--label slds-is-resizable tableHeader" scope="col">Executive Name</th>
+                        <aura:if isTrue="{!v.type == 'Exit'}">
+                        <th  class="slds-text-heading--label slds-is-resizable tableHeader" scope="col">Previous Job Title</th>
+                            <aura:set attribute="else">
+                             <th  class="slds-text-heading--label slds-is-resizable tableHeader" scope="col">New Job Title</th>
+                            </aura:set>
+                        </aura:if>
+                        
+                        
+                    </tr>
+            </thead>
+            <tbody>
+         
+            <aura:iteration var="row" items="{!v.exeMovementList}">
+                        <tr class="slds-align-top slds-hint-parent">
+
+                                <td role="gridcell" >
+									<ui:outputDateTime value="{!row.draupApp__MovementDate__c}" format="MMM dd yyyy"/>
+
+                                </td>
+                            <td role="gridcell" style="white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word">
+									{!row.draupApp__ExecutiveName__c}
+
+                                </td>
+                            <td role="gridcell" style="white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word">
+									{!row.draupApp__ExecutiveMovementTitle__c}
+
+                                </td>
+                </tr>
+                </aura:iteration>
+           
+                            </tbody>
+            
+        </table>
+           </div>
+        <aura:set attribute="else">
+            <div class="erDiv">
+                <div class="erInrDiv">
+                    {!v.errorMsg}
+                </div>
+            </div>
+      </aura:set>
+</aura:if>
+    
+</aura:component>

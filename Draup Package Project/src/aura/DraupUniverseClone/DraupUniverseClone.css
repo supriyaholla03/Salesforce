@@ -1,0 +1,11 @@
+.THIS table {
+    width:25%;
+}
+.THIS .tabs__content active uiTab
+{
+    padding : 0;
+}
+.THIS .slds-text-title_caps
+{
+    background-color: #66ccff;
+}

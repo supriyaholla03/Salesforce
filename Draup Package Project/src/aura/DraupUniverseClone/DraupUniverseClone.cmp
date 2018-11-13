@@ -1,0 +1,164 @@
+<aura:component controller='DraupUniverseController' implements="force:lightningQuickAction,flexipage:availableForRecordHome,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="recordId" type="id" />
+    <aura:attribute name="isLinkButtonClick" type="Boolean" />
+    <aura:attribute name="isDataDisplay" type="Boolean" default="true" />
+    <aura:attribute name="isLoginAuth" type="Boolean" default="false"/>
+    <aura:attribute name="userInfo" type="user"/> 
+    <aura:attribute name="accId" type="Id"/> 
+    <!-- init method loads the data attribute values -->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:attribute name="DraupUniverseWrapper" type="DraupUniverseWrapper[]" />
+    <aura:attribute name="DraupHeaders" type="List" />
+    <aura:attribute name="isLoginDisable" type="Boolean"  />
+ 
+
+    
+    <!-- Spinner Start -->
+    <c:SpinnerComponent aura:id="childSpinner" /> 
+    <!-- Spinner End -->
+    
+   <div>
+        <aura:if isTrue="{!v.isLinkButtonClick}">
+       <div class="slds-page-header slds-box slds-box_large" role="banner" style="100%;text-align:center;">
+         	   <span style="width: 15%;float: left;border-right: 1px solid black;">
+                <img src="{!$Resource.drauplogo}" style="float:left;width:100px !important;height:30px !important;"/>
+				</span>
+            <aura:iteration items="{!v.DraupHeaders}" var="draup1" indexVar="key">           
+            <aura:if isTrue="{!draup1.key=='Overview'}"> 
+                <span class="slds-grid slds-wrap slds-border_top slds-border_bottom" style="width:60%;">
+                    <aura:iteration items="{!draup1.value}" var="draupChild1" indexVar="key1">
+                        <span class="slds-col slds-align-middle slds-size_1-of-6  ">
+                            <span>
+                                <b>{!draupChild1.key} <br/></b>{!draupChild1.value} <br/><br/>
+                            </span>
+                        </span>
+                    </aura:iteration> 
+                </span> 
+            </aura:if>
+        </aura:iteration>
+           <span style="float: left;margin-left:4px;">
+                 <img src="{!$Resource.unlinklogo}" title="Unlink" onclick="{!c.unlinkUniverseData}" style="width:15px !important;height:15px !important;"/>
+           </span>
+           <span style="float: left;margin-left:8px">
+                <img src="{!$Resource.synclogo}" title="Sync" onlcick="{!c.syncRolodexData}" style="width:20px !important;height:15px !important;"/>
+           </span>    
+
+           </div>
+       </aura:if>
+        
+       
+
+    
+    
+    <!--<aura:attribute name="isOpen" type="boolean" default="false"/>
+     <div class="slds-m-around_xx-large">
+        <lightning:button variant="brand"
+                         label="SkillsData"
+                          title="SkillsData"
+                          onclick="{! c.openModel }" />
+        <aura:if isTrue="{!v.isOpen}">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">SkillsData</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                         <c:SkillsDataInChart/>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral" 
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModel }"/>
+                       
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+    </div>-->
+    <aura:if isTrue="{!v.isLoginDisable}">
+        <center>
+            <lightning:button variant="brand"  class="slds-button slds-button_neutral"  title="Neutral action"  onclick="{!c.draupAuthentication}">
+                <img class="slds-button__icon slds-button__icon_left" src="{!$Resource.DraupImage}" /> 
+                <strong>Login To Draup </strong>
+            </lightning:button>
+        </center>
+    </aura:if>
+    <aura:if isTrue="{!and(v.isLoginDisable == false , v.isDataDisplay == True)}">
+        <div class="slds-m-around_xx-large">
+                
+                     <lightning:card class="icn" iconName="utility:user" title="Choose Company from Draup library to Link">
+               
+                <table class="slds-table" role="grid" width="25% !important;">
+                <tbody>
+                    <!-- Iterates the collection of records stored in the data attribute-->
+                    <aura:iteration items="{!v.DraupUniverseWrapper}" var="row">
+                        <tr class="slds-hint-parent">
+                            <td data-label="">  
+                                <!-- checkbox selection invokes the onCheckboxChange controller method-->
+                             <ui:inputRadio aura:id="rowSelectionRadioId" name="others" value=" " text="{!row.account_id}" change="{!c.onExecutiveChange}"/>                                   
+                            </td>
+                            <td data-label="Name">  
+                              <div class="slds-truncate" title="{!row.name}">{!row.account_name}</div>
+                            </td>
+                            
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+                </table>
+                   </lightning:card>
+                   </div>
+            <center>
+                <lightning:button variant="brand" label="Link" title="Link" onclick="{! c.displayRelatedExecutiveData }"  />
+            </center>
+     
+    </aura:if>
+    <aura:if isTrue="{!v.isLinkButtonClick}">
+       <!-- <aura:iteration items="{!v.DraupHeaders}" var="draup" indexVar="key">           
+            <aura:if isTrue="{!draup.key=='Overview'}"> 
+                <div class="slds-grid slds-wrap slds-border_top slds-border_bottom">
+                    <aura:iteration items="{!draup.value}" var="draupChild" indexVar="key">
+                        <div class="slds-col slds-align-middle slds-size_1-of-6  ">
+                            <span>
+                                <b>{!draupChild.key} <br/></b>{!draupChild.value} <br/><br/>
+                            </span>
+                        </div>
+                    </aura:iteration> 
+                </div> 
+            </aura:if>
+        </aura:iteration> -->
+        
+        
+       
+        
+     <lightning:tabset  variant="vertical"  aura:id="tabs" selectedTabId="Outsourcing">
+            <aura:iteration items="{!v.DraupHeaders}" var="draup" indexVar="key">
+                <lightning:tab label="{!draup.key}" id="{!draup.key}">
+                    <aura:if isTrue="{!or(draup.key=='Outsourcing' , draup.key=='Digital Tech Stack')}">
+                        <aura:iteration items="{!draup.value}" var="draupChild" indexVar="key">
+                            <div class="slds-border_bottom"><b>{!draupChild.key} </b></div><br/>{!draupChild.value} <br/><br/>
+                        </aura:iteration>
+                    </aura:if>
+                    <aura:if isTrue="{!draup.key=='Hiring'}">
+                        <c:UniverseHiring recordId="{!v.recordId}"/>
+                        
+                    </aura:if>
+                    <aura:if isTrue="{!draup.key=='Executive Movement'}">
+                        <c:UniverseExecutiveMovement recordId="{!v.recordId}"/>
+                        
+                    </aura:if>
+                </lightning:tab>
+            </aura:iteration>
+        </lightning:tabset>
+        <hr/>
+        <hr/>
+        
+    </aura:if>
+    </div>
+</aura:component>

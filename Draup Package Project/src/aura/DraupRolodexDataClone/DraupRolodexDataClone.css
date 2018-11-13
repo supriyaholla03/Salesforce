@@ -1,0 +1,68 @@
+.THIS table {
+    width:25%;
+}
+
+.THIS .tabs__content active uiTab
+{
+    padding : 0;
+}
+.THIS .slds-text-title_caps{
+    background-color: #dae5f4;
+}
+
+.THIS .slds-page-header{
+    height: 60px;
+    background: none;
+    border: 1px solid rgb(221, 219, 218);
+}
+
+/*.THIS .slds-table_col-bordered{
+    border-collapse:separate;
+    border:solid black 1px;
+    border-radius:20px;
+    -moz-border-radius:20px;
+    text-shadow: 1px 1px 1px #ccc
+}*/
+
+.THIS .tableHeader{
+   font-weight: normal !important; 
+   font-size: 15px !important;
+  /*  width: 300px !important;   */
+}
+
+.THIS .slds-text-heading--label{
+    text-transform: initial !important;
+}
+
+.THIS .slds-icon {
+    width: 1rem !important;
+    height: 1rem !important;
+    
+}
+/*.THIS .header-left-border-radius{
+    background-color:#D6EAF8;
+    border-radius: 20px 0 0 0
+}
+
+.THIS .header-right-border-radius{
+    background-color:#D6EAF8;
+    border-radius: 0 20px 0 0
+}
+
+
+.THIS .TFtable{
+		width:100%; 
+		border-collapse:collapse; 
+}
+.THIS .TFtable td{ 
+		padding:7px; border:#4e95f4 1px solid;
+}
+.THIS .TFtable tr{
+		background: #b8d1f3;
+}
+.THIS .TFtable tr:nth-child(odd){ 
+		background: #b8d1f3;
+}
+.THIS .TFtable tr:nth-child(even){
+		background: #dae5f4;
+}*/

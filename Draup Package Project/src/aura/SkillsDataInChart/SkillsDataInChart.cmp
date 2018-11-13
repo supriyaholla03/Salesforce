@@ -1,0 +1,27 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+    <ltng:require scripts="{!$Resource.Chartjs}" afterScriptsLoaded="{!c.doInit}"/>
+
+   
+    <aura:attribute name="Totalskills" type="map" />
+    <aura:attribute name="Totalskills1" type="map" />
+    <aura:attribute name="Countries" type="list" />
+    <aura:attribute name="selectedCountries" type="list" />
+    <aura:attribute name="showTable" type="boolean" default="false"/>
+    
+        <div id="check">
+            <aura:iteration var="item" items="{!v.Countries}">
+                <lightning:input type="checkbox" checked="{!item.checkbox}" label="{!item.countryName}" aura:id="mycheckbox"/>
+            </aura:iteration>
+            <button class="slds-button slds-button--neutral" onclick="{!c.addValue}" >Submit</button>
+            
+        </div>
+   
+   
+   
+    <div  id="chartDiv">
+        <canvas aura:id="barChart"  id= "barChart" height="300" width="450" />
+    </div>
+    
+    
+    
+</aura:component>

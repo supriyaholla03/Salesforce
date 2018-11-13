@@ -1,0 +1,67 @@
+.THIS table{
+    width:98%;
+    border:none;
+    margin-top:20px;
+}
+
+.THIS table tbody tr{
+    height:50px;
+   
+}
+.THIS table tbody tr td{
+border-bottom : 1px solid rgb(221, 219, 218) !important;   
+border-left : none !important;
+}
+
+.THIS .slds-table td {
+    padding-top:15px;
+}
+
+.THIS .slds-table th {
+   border-right : none;
+   font-family : "Roboto Embed", Arial, sans-serif;
+    font-size:13px !important;
+    color : rgb(141, 141, 141);
+    letter-spacing : 0 !important;
+     border-bottom : 1px solid rgb(226, 226, 226) !important;
+}
+
+.THIS .slds-table thead th{
+background-color : white !important;
+}
+
+.THIS .slds-table--bordered tbody td {
+    border-top: none !important;
+    font-family : "Roboto Embed", Arial, sans-serif;
+    font-size : 12px !important;
+     color : #282828;
+}
+
+.THIS .uiOutputDateTime {
+    font-size : 12px !important;
+    font-family : "Roboto Embed", Arial, sans-serif;
+    color : #282828;
+}
+
+.THIS .slds-table--col-bordered th+th {
+    border-left : none !important;
+}
+.THIS table tbody tr:last-child td {
+    border-bottom:none !important;
+}
+.THIS .slds-checkbox{
+    padding-left:20px;
+}
+.THIS.erDiv{
+    width: 65%;
+    background: rgb(243, 242, 242);
+    height: 50px;
+    margin: 30px auto;
+    border: 1px solid #ccc;
+}
+.THIS .erInrDiv{
+    color: #282828;
+    text-align: center;
+    font-weight: bold;
+    padding-top: 15px;
+}
